@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 10:24:33 by lbonnefo          #+#    #+#             */
-/*   Updated: 2022/11/02 15:16:57 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2022/11/03 16:26:20 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*get_next_line(int fd)
 		char_read = read(fd, buf, BUFFER_SIZE);
 		endl = check_read(char_read, buf, st_chr);
 		next_line = ft_strjoin(next_line, buf);
-		if (next_line[0] == '\0' && buf[0] == '\0')
+		if (!next_line || (next_line[0] == '\0' && buf[0] == '\0'))
 		{	
 			free(next_line);
 			next_line = NULL;
@@ -49,6 +49,12 @@ int	is_endl(char *buf, char *st_chr)
 {
 	int	a;
 
+	if (!buf)
+	{
+		free(buf);
+		buf = NULL;
+		return (1);
+	}
 	a = 0;
 	while (buf[a] != '\0')
 	{
