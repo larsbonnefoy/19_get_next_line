@@ -5,16 +5,16 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/02 14:05:55 by lbonnefo          #+#    #+#             */
-/*   Updated: 2022/11/03 16:26:44 by lbonnefo         ###   ########.fr       */
+/*   Created: 2022/11/08 16:22:04 by lbonnefo          #+#    #+#             */
+/*   Updated: 2022/11/08 16:56:09 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-int		is_endl(char *str, char *st_chr);
-void	complete_line(char *buf, char *st_chr, int flag);
-int		check_read(int char_read, char *buf, char *st_chr);
+static int		is_endl(char *str, char *st_chr, int is_buf);
+static void		complete_line(char *buf, char *st_chr, int flag);
+static int		check_read(int char_read, char *buf, char *st_chr);
 
 char	*get_next_line(int fd)
 {
@@ -22,45 +22,41 @@ char	*get_next_line(int fd)
 	static char	st_chr[OPEN_MAX][BUFFER_SIZE + 1];
 	int			endl;
 	char		*next_line;
-	int			char_read;
 
 	if (fd < 0)
 		return (NULL);
-	next_line = ft_strdup(st_chr[fd]);
-	if (is_endl(next_line, st_chr[fd]) == 1)
+	next_line = clean_cpy(st_chr[fd]);
+	if (is_endl(next_line, st_chr[fd], 0) == 1)
 		return (next_line);
 	endl = 0;
 	while (endl == 0)
 	{
 		ft_bzero(buf, BUFFER_SIZE + 1);
-		char_read = read(fd, buf, BUFFER_SIZE);
-		endl = check_read(char_read, buf, st_chr[fd]);
+		endl = check_read(read(fd, buf, BUFFER_SIZE), buf, st_chr[fd]);
 		next_line = ft_strjoin(next_line, buf);
 		if (!next_line || (next_line[0] == '\0' && buf[0] == '\0'))
 		{	
 			free(next_line);
 			next_line = NULL;
+			return (next_line);
 		}	
 	}
 	return (next_line);
 }
 
-int	is_endl(char *buf, char *st_chr)
+int	is_endl(char *buf, char *st_chr, int is_buf)
 {
 	int	a;
 
 	if (!buf)
-	{
-		free(buf);
-		buf = NULL;
 		return (1);
-	}
 	a = 0;
 	while (buf[a] != '\0')
 	{
 		if (buf[a] == '\n')
 		{
-			complete_line(buf, st_chr, 1);
+			if (is_buf == 1)
+				complete_line(buf, st_chr, 1);
 			return (1);
 		}
 		a++;
@@ -103,5 +99,5 @@ int	check_read(int char_read, char *buf, char *st_chr)
 		complete_line(buf, st_chr, 0);
 		return (1);
 	}			
-	return (is_endl(buf, st_chr));
+	return (is_endl(buf, st_chr, 1));
 }

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/02 14:05:36 by lbonnefo          #+#    #+#             */
-/*   Updated: 2022/11/02 15:26:05 by lbonnefo         ###   ########.fr       */
+/*   Created: 2022/11/08 16:22:12 by lbonnefo          #+#    #+#             */
+/*   Updated: 2022/11/08 16:36:49 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,15 @@ char	*ft_strjoin(char *s1, char *s2)
 	int		b;
 	char	*str;
 
-	if (!s1 || !s2)
-	{	
-		free(s1);
-		return (0);
-	}	
 	a = -1;
 	b = -1;
 	size = ft_strlen(s1) + ft_strlen(s2);
 	str = malloc((size + 1) * sizeof(char));
 	if (str == NULL)
-		return (0);
+	{	
+		free(s1);
+		return (NULL);
+	}
 	while (s1[++a] != '\0')
 		str[a] = (char)s1[a];
 	free(s1);
@@ -43,32 +41,37 @@ size_t	ft_strlen(char *s)
 {
 	size_t	a;
 
+	if (!s)
+		return (0);
 	a = 0;
 	while (s[a] != '\0')
 		a++;
 	return (a);
 }
 
-char	*ft_strdup(char *s1)
+char	*clean_cpy(char *st_chr)
 {
-	int		len;
-	char	*str;
 	int		a;
+	int		len;
+	char	*next_line;
 
-	if (s1 == NULL)
-		return (NULL);
-	len = ft_strlen(s1);
-	str = malloc((len +1) * sizeof(char));
-	if (str == NULL)
+	len = 0;
+	while (st_chr[len] != '\n' && st_chr[len] != '\0')
+		len++;
+	if (st_chr[len] == '\n')
+		len += 1;
+	next_line = malloc((len + 1) * sizeof(char));
+	if (next_line == NULL)
 		return (NULL);
 	a = 0;
-	while (s1[a] != '\0' && a < len)
+	while (a < len)
 	{
-		str[a] = s1[a];
+		next_line[a] = st_chr[a];
 		a++;
 	}
-	str[a] = '\0';
-	return (str);
+	next_line[a] = '\0';
+	ft_strlcpy(st_chr, st_chr + a, BUFFER_SIZE + 1);
+	return (next_line);
 }
 
 size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize)
