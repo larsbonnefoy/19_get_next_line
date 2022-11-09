@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 10:25:26 by lbonnefo          #+#    #+#             */
-/*   Updated: 2022/11/08 16:39:13 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2022/11/09 09:40:36 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,5 @@ size_t	ft_strlen(char *s);
 char	*ft_strjoin(char *s1, char *s2);
 char	*clean_cpy(char *st_chr);
 size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize);
-void	ft_bzero(void *s, size_t n);
+void	ft_bzero(char *s, size_t n);
 #endif

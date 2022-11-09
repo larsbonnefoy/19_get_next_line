@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 15:26:30 by lbonnefo          #+#    #+#             */
-/*   Updated: 2022/11/08 16:38:47 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2022/11/09 09:58:51 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,14 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize)
 	return (srclen);
 }
 
-void	ft_bzero(void *s, size_t n)
+void	ft_bzero(char *s, size_t n)
 {
 	size_t	i;
 
 	i = 0;
 	while (i < n)
 	{
-		*(unsigned char *)(s + i) = 0;
+		s[i] = '\0';
 		i++;
 	}
 }
